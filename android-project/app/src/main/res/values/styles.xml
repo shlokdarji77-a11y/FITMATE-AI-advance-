@@ -1,0 +1,15 @@
+<resources>
+    <style name="Theme.FitmateAI" parent="@android:style/Theme.Material.NoActionBar">
+        <item name="android:colorPrimary">#00E599</item>
+        <item name="android:colorPrimaryDark">#00C482</item>
+        <item name="android:colorAccent">#00E599</item>
+        <item name="android:statusBarColor">#07090E</item>
+        <item name="android:navigationBarColor">#07090E</item>
+        <item name="android:windowBackground">#07090E</item>
+    </style>
+    <style name="Theme.FitmateAI.Fullscreen" parent="Theme.FitmateAI">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+    </style>
+</resources>
+

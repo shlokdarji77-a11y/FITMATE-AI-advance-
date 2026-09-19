@@ -1,0 +1,147 @@
+/* ==========================================================================
+   FITMATE AI — Official Download Portal
+   Animations & Micro-interactions (animations.css)
+   ========================================================================== */
+
+/* Subtle ambient pulse for active status indicators */
+@keyframes pulseGlow {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.85;
+    box-shadow: 0 0 6px var(--accent-primary);
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+    box-shadow: 0 0 16px var(--accent-primary);
+  }
+}
+
+.hero-tag-pulse,
+.telemetry-status-dot,
+.cv-cam-status-dot {
+  animation: pulseGlow 2.5s infinite ease-in-out;
+}
+
+/* Biometric HUD Skeleton Point Pulsing */
+@keyframes landmarkPulse {
+  0%, 100% {
+    r: 3.5;
+    opacity: 0.9;
+  }
+  50% {
+    r: 5.5;
+    opacity: 1;
+  }
+}
+
+.pose-landmark {
+  animation: landmarkPulse 3s infinite ease-in-out;
+}
+
+.pose-landmark:nth-child(2n) {
+  animation-delay: 0.5s;
+}
+
+.pose-landmark:nth-child(3n) {
+  animation-delay: 1s;
+}
+
+/* Subtle ambient floating effect */
+@keyframes subtleFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.hero-telemetry-card {
+  animation: subtleFloat 6s ease-in-out infinite;
+}
+
+/* Scanline overlay for the CV camera preview */
+@keyframes scanlineAnim {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(1000%);
+  }
+}
+
+.cv-scanline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, rgba(0, 229, 153, 0.4) 50%, transparent 100%);
+  box-shadow: 0 0 8px var(--accent-primary);
+  animation: scanlineAnim 4s linear infinite;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Button Ripple & Shine Effect */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.25) 50%,
+    transparent 60%
+  );
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.btn-primary:hover::after {
+  transform: translateX(100%);
+}
+
+/* Smooth fade-in entrance for sections */
+.fade-in-section {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.fade-in-section.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Accessibility: Respect Reduced Motion Preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .fade-in-section {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .hero-telemetry-card {
+    animation: none !important;
+  }
+  .cv-scanline {
+    display: none !important;
+  }
+}

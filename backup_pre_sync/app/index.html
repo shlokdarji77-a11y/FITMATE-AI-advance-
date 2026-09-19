@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FITMATE AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#07090e">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="256x256" href="icon-256.png">
+  <link rel="apple-touch-icon" href="icon-256.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="app.css?v=2.1.0">
+</head>
+<body>
+
+  <!-- 1. SPLASH / OPENING SCREEN -->
+  <div id="screenSplash" class="app-screen active">
+    <div class="splash-card">
+      <div class="splash-logo-wrap">
+        <svg viewBox="0 0 64 64" fill="none" class="splash-svg">
+          <rect width="64" height="64" rx="16" fill="#0E131D"/>
+          <rect x="2" y="2" width="60" height="60" rx="14" stroke="#00E599" stroke-opacity="0.4" stroke-width="2"/>
+          <path d="M18 46V18H38V24H25V30H36V36H25V46H18Z" fill="#00E599"/>
+          <path d="M41 46L36 34L40 31L47 46H41Z" fill="#0EA5E9"/>
+          <circle cx="44" cy="22" r="4" fill="#00E599"/>
+        </svg>
+      </div>
+      <h1 class="splash-title">FITMATE AI</h1>
+      <p class="splash-tagline">Your Adaptive AI Fitness Companion for a Healthier Student Lifestyle</p>
+      <div class="splash-loader-bar">
+        <div class="splash-loader-progress" id="splashProgressBar"></div>
+      </div>
+      <div class="splash-status" id="splashStatus">Initializing adaptive engines...</div>
+    </div>
+  </div>
+
+  <!-- 2. ROLE SELECTION SCREEN -->
+  <div id="screenRole" class="app-screen">
+    <div class="role-container">
+      <div class="role-header">
+        <div class="badge badge-mint">Welcome to FITMATE AI</div>
+        <h2>Select Your Account Role</h2>
+        <p>Choose your workspace to customize workouts and guidance</p>
+      </div>
+
+      <div class="role-cards-grid">
+        <!-- Role 1: Student -->
+        <div class="role-card" data-select-role="student">
+          <div class="role-icon student">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+          </div>
+          <h3>Student / Gym Member</h3>
+          <p>Get personalized workouts, real-time AI movement tracking, hostel challenges, and coach-assigned plans.</p>
+          <button class="btn btn-primary btn-full">Continue as Student</button>
+        </div>
+
+        <!-- Role 2: Coach -->
+        <div class="role-card" data-select-role="coach">
+          <div class="role-icon coach">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M21.2 8.3l-5.6-2.8C14.7 4.9 13.4 4.5 12 4.5c-4.1 0-7.5 3.4-7.5 7.5s3.4 7.5 7.5 7.5c3.5 0 6.5-2.5 7.3-5.8l2.2-.7c.8-.3 1.3-1.1 1.3-1.9v-1.1c0-.9-.6-1.6-1.6-1.7zm-9.2 8.7c-2.8 0-5-2.2-5-5s2.2-5 5-5c1 0 1.9.3 2.7.8l-4.4 4.4c-.4.4-.4 1 0 1.4s1 .4 1.4 0l4.4-4.4c.5.8.8 1.7.8 2.8 0 2.8-2.2 5-4.9 5z"/>
+            </svg>
+          </div>
+          <h3>Teacher / Coach</h3>
+          <p>Manage student rosters, confirm manual attendance, assign custom workouts, and monitor performance with AI insights.</p>
+          <button class="btn btn-secondary btn-full">Continue as Coach</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. LOGIN / SIGNUP SCREEN -->
+  <div id="screenAuth" class="app-screen">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="auth-role-tag" id="authRoleTag">Student Account</div>
+        <h2 id="authTitle">Sign In to FITMATE AI</h2>
+        <p id="authSubtitle">Access your fitness dashboard and synced records</p>
+      </div>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tabLogin">Log In</button>
+        <button class="auth-tab" id="tabRegister">Sign Up</button>
+      </div>
+
+      <form id="formAuth" class="auth-form" autocomplete="off">
+        <div class="form-group" id="groupName" style="display: none;">
+          <label>Full Name</label>
+          <input type="text" id="inputName" placeholder="e.g. Alex Patel" autocomplete="off" />
+        </div>
+        <div class="form-group">
+          <label>Institutional Email</label>
+          <input type="email" id="inputEmail" required placeholder="name@example.com" autocomplete="off" />
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="inputPassword" required placeholder="Enter your password" autocomplete="off" />
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary btn-full" id="btnAuthSubmit">Sign In</button>
+        </div>
+        <div class="auth-switch-role">
+          <button type="button" id="btnBackToRole">← Switch Role</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 4. MAIN APPLICATION SHELL -->
+  <div id="screenApp" class="app-screen">
+    <!-- Top Header -->
+    <header class="app-topbar">
+      <div class="topbar-left">
+        <button class="topbar-menu-btn" id="btnMobileMenuToggle" aria-label="Toggle navigation menu" aria-expanded="false">
+          <span class="menu-icon-branding">
+            <svg viewBox="0 0 24 24" class="menu-svg" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </span>
+        </button>
+        <button class="topbar-back-btn" id="btnMobileBack" aria-label="Go Back" style="display: none;">
+          <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+        </button>
+        <div class="brand">
+          <div class="brand-icon">
+            <svg viewBox="0 0 24 24" fill="#00E599">
+              <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5zm0 4a3 3 0 110 6 3 3 0 010-6z"/>
+            </svg>
+          </div>
+          <span>FITMATE AI</span>
+        </div>
+        <span class="role-badge" id="appRoleBadge">Student Mode</span>
+        <span class="mobile-page-title" id="mobilePageTitle">Dashboard</span>
+      </div>
+
+      <div class="topbar-right">
+        <div class="topbar-status">
+          <span class="status-dot"></span>
+          <span>Campus Gym Network: Connected</span>
+        </div>
+        <button class="topbar-btn" id="btnNotifications" title="Notifications">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/>
+          </svg>
+          <span class="notify-badge" id="notifyBadge" style="display: none;">0</span>
+        </button>
+        <div class="user-profile-menu" id="userProfileBtn">
+          <div class="user-avatar" id="appUserAvatar">AP</div>
+          <span class="user-name" id="appUserName">User</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Sidebar Backdrop for Mobile Drawer -->
+    <div id="sidebarBackdrop" class="sidebar-backdrop" aria-hidden="true"></div>
+
+    <!-- Notification Drawer -->
+    <div id="notificationDrawer" class="notification-drawer">
+      <div class="notification-drawer-header">
+        <h4>In-App Notifications</h4>
+        <button class="btn btn-secondary btn-sm" id="btnMarkAllRead" style="font-size: 0.72rem; padding: 0.2rem 0.5rem;">Mark all read</button>
+      </div>
+      <div id="notificationsList" class="notification-list">
+        <!-- Dynamically rendered -->
+      </div>
+    </div>
+
+    <div class="app-body">
+      <!-- Left Sidebar Navigation / Collapsible Mobile Drawer -->
+      <aside class="app-sidebar" id="appSidebar">
+        <!-- Mobile Drawer Header -->
+        <div class="sidebar-drawer-header">
+          <div class="drawer-brand">
+            <div class="brand-icon">
+              <svg viewBox="0 0 24 24" fill="#00E599">
+                <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5zm0 4a3 3 0 110 6 3 3 0 010-6z"/>
+              </svg>
+            </div>
+            <div class="drawer-brand-text">
+              <span class="drawer-brand-title">FITMATE AI</span>
+              <span class="drawer-brand-sub" id="drawerRoleSub">Student Companion</span>
+            </div>
+          </div>
+          <button class="drawer-close-btn" id="btnCloseSidebarDrawer" aria-label="Close sidebar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+
+        <!-- Drawer User Profile Info Card -->
+        <div class="sidebar-user-chip" id="sidebarUserChip">
+          <div class="user-avatar" id="drawerUserAvatar">AP</div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name" id="drawerUserName">User</div>
+            <div class="sidebar-user-role" id="drawerUserRole">Student Mode</div>
+          </div>
+        </div>
+
+        <!-- Student Nav Menu -->
+        <nav class="sidebar-nav" id="navStudent">
+          <button class="nav-item active" data-view="view-student-dashboard">
+            <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+            <span>Dashboard</span>
+          </button>
+          <button class="nav-item" data-view="view-student-workouts">
+            <svg viewBox="0 0 24 24"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29z"/></svg>
+            <span>Workouts</span>
+          </button>
+          <button class="nav-item" data-view="view-student-aitrainer">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+            <span>AI Trainer</span>
+          </button>
+          <button class="nav-item" data-view="view-student-progress">
+            <svg viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
+            <span>Progress</span>
+          </button>
+          <button class="nav-item" data-view="view-student-challenges">
+            <svg viewBox="0 0 24 24"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V19H7v2h10v-2h-4v-3.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2z"/></svg>
+            <span>Challenges</span>
+          </button>
+          <button class="nav-item" data-view="view-student-gym">
+            <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            <span>Campus Gym</span>
+          </button>
+          <button class="nav-item" data-view="view-student-profile">
+            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            <span>Profile</span>
+          </button>
+        </nav>
+
+        <!-- Coach Nav Menu -->
+        <nav class="sidebar-nav" id="navCoach" style="display: none;">
+          <button class="nav-item active" data-view="view-coach-dashboard">
+            <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+            <span>Dashboard</span>
+          </button>
+          <button class="nav-item" data-view="view-coach-members">
+            <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+            <span>Members Roster</span>
+          </button>
+          <button class="nav-item" data-view="view-coach-attendance">
+            <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM9 10H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z"/></svg>
+            <span>Manual Attendance</span>
+          </button>
+          <button class="nav-item" data-view="view-coach-assign">
+            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+            <span>Assign Workout</span>
+          </button>
+          <button class="nav-item" data-view="view-coach-performance">
+            <svg viewBox="0 0 24 24"><path d="M5 9.2h3V19H5zM10.6 5h2.8v14h-2.8zm5.6 8H19v6h-2.8z"/></svg>
+            <span>Performance</span>
+          </button>
+          <button class="nav-item" data-view="view-coach-insights">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            <span>AI Insights</span>
+          </button>
+          <button class="nav-item" data-view="view-coach-fees">
+            <svg viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+            <span>Membership &amp; Fees</span>
+          </button>
+          <button class="nav-item" data-view="view-coach-profile">
+            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            <span>Coach Profile</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-footer">
+          <button class="btn btn-secondary btn-sm btn-full" id="btnLogout">Sign Out</button>
+        </div>
+      </aside>
+
+      <!-- Main Content Views Container -->
+      <main class="app-main-content">
+
+        <!-- ==================== STUDENT VIEWS ==================== -->
+
+        <!-- 1. Student Dashboard -->
+        <section id="view-student-dashboard" class="content-view active">
+          <div class="view-header">
+            <div>
+              <h2>Welcome back, <span id="dashStudentName">Student</span>!</h2>
+              <p id="dashStudentSubtitle">Your adaptive plan is calibrated for today's session.</p>
+            </div>
+            <button class="btn btn-primary" id="btnStartTodaysWorkout">Start Today's Workout</button>
+          </div>
+
+          <!-- Quick Metrics Grid -->
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div class="metric-label">Streak Consistency</div>
+              <div class="metric-value mint" id="statStreakVal">0 Days</div>
+              <div class="metric-sub" id="statStreakSub">No active streak yet</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Weekly Completed</div>
+              <div class="metric-value cyan" id="statWeeklyVal">0 / 5 Sessions</div>
+              <div class="metric-sub" id="statWeeklySub">Start your first workout</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">AI Form Accuracy</div>
+              <div class="metric-value" id="statAccuracyVal">No data yet</div>
+              <div class="metric-sub" id="statAccuracySub">Camera verified reps</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Campus Attendance</div>
+              <div class="metric-value mint" id="statAttendanceVal">Not recorded yet</div>
+              <div class="metric-sub" id="statAttendanceSub">Confirmed by Coach</div>
+            </div>
+          </div>
+
+          <!-- Active Assignment / Calibrated Routine Container -->
+          <div id="activeAssignmentContainer" style="margin-top: 1.5rem;">
+            <!-- Dynamically populated in app.js -->
+          </div>
+
+          <!-- Quick Generate Workouts -->
+          <div style="margin-top: 2rem;">
+            <h3 style="font-size: 1.15rem; margin-bottom: 1rem;">Generate Quick Workouts</h3>
+            <div class="quick-workouts-row">
+              <button class="quick-btn" data-time="5">5 Min Burn</button>
+              <button class="quick-btn" data-time="10">10 Min HIIT</button>
+              <button class="quick-btn active" data-time="20">20 Min Adaptive</button>
+              <button class="quick-btn" data-time="45">45 Min Full Body</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. Student Workouts Library -->
+        <section id="view-student-workouts" class="content-view">
+          <div class="view-header">
+            <div>
+              <h2>Workout Plans</h2>
+              <p>Curated campus routines and AI-adapted progressions.</p>
+            </div>
+          </div>
+
+          <div class="workout-cards-grid" id="studentWorkoutsGrid">
+            <!-- Dynamically populated in app.js -->
+          </div>
+          <div id="studentWorkoutsEmpty" class="empty-state-card" style="display: none;">
+            <div class="empty-state-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v16m8-8H4"/></svg>
+            </div>
+            <div class="empty-state-title">No Workout Plans Generated Yet</div>
+            <div class="empty-state-desc">Complete your fitness onboarding profile so FITMATE AI can generate routines tailored to your age, goal, and equipment.</div>
+            <button class="btn btn-primary btn-sm" id="btnOpenOnboardingFromWorkouts">Complete Profile &amp; Generate</button>
+          </div>
+        </section>
+
+        <!-- 3. AI Trainer & Camera Interface -->
+        <section id="view-student-aitrainer" class="content-view">
+          <div class="view-header">
+            <div>
+              <h2 id="aiTrainerHeaderTitle">AI Trainer &amp; Camera Vision</h2>
+              <p id="aiTrainerHeaderSubtitle">Position your device to capture full-body motion. Real-time rep counting and angle telemetry.</p>
+            </div>
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+              <button class="btn btn-secondary btn-sm" id="btnToggleCameraSource">Use Live Webcam</button>
+              <button class="btn btn-primary btn-sm" id="btnStartTracking">Start AI Session</button>
+            </div>
+          </div>
+
+          <!-- Camera Alert Banner -->
+          <div class="camera-alert-banner" id="cameraAlertBanner">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+            <span id="cameraAlertMsg">Camera permission is required for live movement tracking.</span>
+          </div>
+
+          <div class="camera-trainer-layout">
+            <!-- Video & Telemetry Canvas -->
+            <div class="camera-viewport">
+              <video id="webcamVideo" autoplay playsinline muted style="display: none;"></video>
+              <canvas id="cameraCanvas" width="640" height="420"></canvas>
+
+              <div class="camera-hud-overlay">
+                <div class="hud-tag">
+                  <span class="status-dot" id="camStatusDot"></span>
+                  <span id="camStatusText">Camera: Ready</span>
+                </div>
+                <div class="hud-angle-pill" id="hudAnglePill">Flexion: 180°</div>
+              </div>
+
+              <div class="camera-hud-bottom">
+                <div class="hud-rep-box">
+                  <div class="hud-rep-title">COMPLETED REPS</div>
+                  <div class="hud-rep-num" id="hudRepCount">0</div>
+                </div>
+                <div class="hud-feedback-pill" id="hudFeedbackPill">Ready: Position in Frame</div>
+              </div>
+            </div>
+
+            <!-- Mobile Dedicated Trainer Action Bar -->
+            <div class="mobile-trainer-bar" id="mobileTrainerBar">
+              <div class="mobile-trainer-info">
+                <div class="mobile-trainer-exercise" id="mobTrainerExercise">Squats</div>
+                <div class="mobile-trainer-reps">Reps: <strong id="mobTrainerReps">0</strong></div>
+              </div>
+              <div class="mobile-trainer-actions">
+                <button class="btn btn-secondary btn-sm" id="btnMobilePauseTracking">Pause</button>
+                <button class="btn btn-primary btn-sm" id="btnMobileFinishWorkout">Finish</button>
+              </div>
+            </div>
+
+            <!-- Trainer Controls & Targets -->
+            <div class="trainer-sidebar">
+              <div class="card-glass" style="padding: 1.25rem;">
+                <h4 style="font-size: 1rem; margin-bottom: 0.75rem;">Selected Exercise</h4>
+                <div class="exercise-select-pills">
+                  <button class="pill-btn active" data-app-exercise="squats">Squats</button>
+                  <button class="pill-btn" data-app-exercise="pushups">Push-ups</button>
+                  <button class="pill-btn" data-app-exercise="lunges">Lunges</button>
+                  <button class="pill-btn" data-app-exercise="jumpingjacks">Jumping Jacks</button>
+                  <button class="pill-btn" data-app-exercise="plank">Plank</button>
+                </div>
+
+                <div style="margin-top: 1.25rem;">
+                  <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.35rem;">
+                    <span style="color: var(--text-muted);">Session Target</span>
+                    <span style="color: #ffffff; font-weight: 600;" id="targetRepText">15 Repetitions</span>
+                  </div>
+                  <div class="progress-track">
+                    <div class="progress-fill" id="sessionProgressFill" style="width: 0%;"></div>
+                  </div>
+                </div>
+
+                <!-- Manual Fallback Rep Controls -->
+                <div class="manual-rep-controls" id="manualRepControls">
+                  <button class="manual-rep-btn" id="btnManualMinus">-1 Rep</button>
+                  <button class="manual-rep-btn" id="btnManualPlus">+1 Rep (Manual Log)</button>
+                  <button class="manual-rep-btn" id="btnManualReset">Reset</button>
+                </div>
+
+                <!-- Complete & Save Session CTA -->
+                <button class="btn btn-primary btn-sm btn-full" id="btnCompleteWorkout" style="margin-top: 1rem;">Complete &amp; Save Workout</button>
+
+                <div style="margin-top: 1.25rem; font-size: 0.82rem; color: var(--text-secondary); line-height: 1.4;">
+                  <strong>Guidance Note:</strong> Maintain steady pacing. Audible tones trigger when proper depth and full lockout are reached.
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. Student Progress -->
+        <section id="view-student-progress" class="content-view">
+          <div class="view-header">
+            <div>
+              <h2>Performance &amp; Adaptation History</h2>
+              <p>Tracking consistency, volume loads, and AI form quality over time.</p>
+            </div>
+          </div>
+
+          <div class="metrics-grid" style="margin-bottom: 2rem;">
+            <div class="metric-card">
+              <div class="metric-label">Total Reps Counted</div>
+              <div class="metric-value mint" id="statTotalRepsVal">0 Reps</div>
+              <div class="metric-sub" id="statTotalRepsSub">Verified by Vision AI</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Active Training Days</div>
+              <div class="metric-value cyan" id="statActiveDaysVal">0 Days</div>
+              <div class="metric-sub" id="statActiveDaysSub">Completed workout sessions</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Adaptive Progression</div>
+              <div class="metric-value" id="statProgressionVal">Baseline</div>
+              <div class="metric-sub" id="statProgressionSub">Calibrated by AI feedback</div>
+            </div>
+          </div>
+
+          <div class="card-glass">
+            <h3 style="font-size: 1.15rem; margin-bottom: 1rem;">Recent Session Log</h3>
+            <div id="progressEmptyState" class="empty-state-card" style="display: none;">
+              <div class="empty-state-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+              </div>
+              <div class="empty-state-title">No Performance Data Yet</div>
+              <div class="empty-state-desc">Complete your first workout session to record verified movement telemetry and start your adaptive progress loop.</div>
+              <button class="btn btn-primary btn-sm" onclick="switchView('view-student-aitrainer')">Start First Workout</button>
+            </div>
+            <table class="data-table" id="progressDataTable">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Exercise</th>
+                  <th>Sets &amp; Reps</th>
+                  <th>Form Score</th>
+                  <th>Verification</th>
+                </tr>
+              </thead>
+              <tbody id="progressTableBody">
+                <!-- Dynamically populated in app.js -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 5. Student Challenges -->
+        <section id="view-student-challenges" class="content-view">
+          <div class="view-header">
+            <div>
+              <h2>Campus &amp; Hostel Challenges</h2>
+              <p>Compete with your department, hostel wing, and campus friends. Ranks driven exclusively by verified workout logs.</p>
+            </div>
+          </div>
+
+          <div class="challenges-grid" id="challengesGrid">
+            <!-- Dynamically populated in app.js -->
+          </div>
+          <div id="challengesEmpty" class="empty-state-card" style="display: none;">
+            <div class="empty-state-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V19H7v2h10v-2h-4v-3.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2z"/></svg>
+            </div>
+            <div class="empty-state-title">No Active Challenges Yet</div>
+            <div class="empty-state-desc">Campus fitness rallies and inter-hostel events will appear here when scheduled by athletics faculty.</div>
+          </div>
+        </section>
+
+        <!-- 6. Student Campus Gym -->
+        <section id="view-student-gym" class="content-view">
+          <div class="view-header">
+            <div>
+              <h2>Campus Fitness Center</h2>
+              <p>Real-time occupancy, station status, and coach manual check-in verification.</p>
+            </div>
+          </div>
+
+          <div class="card-glass" style="margin-bottom: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+              <div>
+                <h3 style="font-size: 1.25rem;">Main Athletic Gym (Hall 4)</h3>
+                <p style="color: var(--text-secondary);">Supervised by Campus Coaching Staff</p>
+              </div>
+              <span class="badge badge-mint">Open Now • 06:00 - 22:00</span>
+            </div>
+            <div class="metrics-grid">
+              <div class="metric-card">
+                <div class="metric-label">Current Occupancy</div>
+                <div class="metric-value cyan" id="gymOccupancyVal">Available (38%)</div>
+                <div class="metric-sub" id="gymOccupancySub">19 / 50 Active Members</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">Check-in Status</div>
+                <div class="metric-value mint" id="gymCheckinStatusVal">Not Checked In</div>
+                <div class="metric-sub" id="gymCheckinSub">Attendance confirmed by your coach</div>
+              </div>
+            </div>
+            <div style="margin-top: 1.25rem; display: flex; gap: 0.75rem;">
+              <button class="btn btn-primary btn-sm" id="btnRequestGymCheckin">Request Gym Check-in</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7. Student Profile -->
+        <section id="view-student-profile" class="content-view">
+          <div class="view-header">
+            <div>
+              <h2>Student Profile &amp; Calibrations</h2>
+              <p>Manage your athletic parameters, fitness goals, and age-aware calibrations.</p>
+            </div>
+          </div>
+
+          <div class="card-glass" style="max-width: 620px;">
+            <form id="formStudentProfile" class="auth-form">
+              <div class="form-group">
+                <label>Student Full Name</label>
+                <input type="text" id="profStudentName" required placeholder="Your full name" />
+              </div>
+              <div class="form-group">
+                <label>Institutional Email</label>
+                <input type="email" id="profStudentEmail" readonly style="opacity: 0.75;" />
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                  <label>Age (Years) *</label>
+                  <input type="number" id="profStudentAge" min="14" max="99" required placeholder="e.g. 21" />
+                </div>
+                <div class="form-group">
+                  <label>Activity Level</label>
+                  <select id="profStudentActivity" style="width: 100%; padding: 0.8rem 1rem; border-radius: 8px; background: #0c1119; color: #ffffff; border: 1px solid var(--border-medium);">
+                    <option value="beginner">Beginner (1-2 days/week)</option>
+                    <option value="intermediate" selected>Intermediate (3-4 days/week)</option>
+                    <option value="advanced">Advanced (5+ days/week)</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Primary Fitness Goal</label>
+                <select id="profStudentGoal" style="width: 100%; padding: 0.8rem 1rem; border-radius: 8px; background: #0c1119; color: #ffffff; border: 1px solid var(--border-medium);">
+                  <option value="strength">Athletic Strength &amp; Posture</option>
+                  <option value="endurance">Cardiovascular Stamina &amp; Conditioning</option>
+                  <option value="weightloss">Weight Loss &amp; High-Rep Tone</option>
+                  <option value="mobility">Flexibility, Core Stability &amp; Posture</option>
+                </select>
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                  <label>Available Daily Time</label>
+                  <select id="profStudentTime" style="width: 100%; padding: 0.8rem 1rem; border-radius: 8px; background: #0c1119; color: #ffffff; border: 1px solid var(--border-medium);">
+                    <option value="15">15 Minutes</option>
+                    <option value="30" selected>30 Minutes</option>
+                    <option value="45">45 Minutes</option>
+                    <option value="60">60 Minutes</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Equipment Access</label>
+                  <select id="profStudentEquipment" style="width: 100%; padding: 0.8rem 1rem; border-radius: 8px; background: #0c1119; color: #ffffff; border: 1px solid var(--border-medium);">
+                    <option value="bodyweight" selected>Bodyweight Only (Hostel/Home)</option>
+                    <option value="dumbbells">Dumbbells &amp; Bands</option>
+                    <option value="gym">Full Campus Gym Facility</option>
+                  </select>
+                </div>
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                  <label>Department (Optional)</label>
+                  <input type="text" id="profStudentDept" placeholder="e.g. Computer Science" />
+                </div>
+                <div class="form-group">
+                  <label>Hostel Wing (Optional)</label>
+                  <input type="text" id="profStudentHostel" placeholder="e.g. Hostel Block B" />
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary" id="btnSaveStudentProfile">Save Profile Changes</button>
+            </form>
+          </div>
+        </section>
+
+        <!-- ==================== COACH VIEWS ==================== -->
+
+        <!-- 8. Coach Dashboard -->
+        <section id="view-coach-dashboard" class="content-view">
+          <div class="view-header">
+            <div>
+              <h2>Coach Command Center</h2>
+              <p>Real-time campus roster supervision, workout dissemination, and attendance audits.</p>
+            </div>
+            <button class="btn btn-primary" onclick="switchView('view-coach-assign')">+ Assign Workout Plan</button>
+          </div>
+
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div class="metric-label">Enrolled Trainees</div>
+              <div class="metric-value mint" id="coachMetricTrainees">0 Students</div>
+              <div class="metric-sub" id="coachMetricTraineesSub">Registered in roster</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Today's Attendance</div>
+              <div class="metric-value cyan" id="coachMetricAttendance">0.0%</div>
+              <div class="metric-sub" id="coachMetricAttendanceSub">Verified today</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">AI Fatigue Alerts</div>
+              <div class="metric-value" style="color: #f59e0b;" id="coachMetricAlerts">0 Students</div>
+              <div class="metric-sub">Volume adjustment advised</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Pending Reviews</div>
+              <div class="metric-value" id="coachMetricPending">0 Sessions</div>
+              <div class="metric-sub">Require coach sign-off</div>
+            </div>
+          </div>
+
+          <!-- Pending Attendance Feed -->
+          <div class="card-glass" style="margin-top: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+              <h3 style="font-size: 1.15rem;">Live Attendance Verification Queue</h3>
+              <button class="btn btn-secondary btn-sm" onclick="switchView('view-coach-attendance')">View All</button>
+            </div>
+            <div id="quickAttendanceFeed" class="feed-list">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </section>
+
+        <!-- 9. Coach Members Management -->
+        <section id="view-coach-members" class="content-view">
+          <div class="view-header coach-roster-header">
+            <div>
+              <h2>Member Roster Management</h2>
+              <p>Filter, search, and review individual member training progressions.</p>
+            </div>
+            <div class="coach-roster-actions">
+              <input type="text" id="inputMemberSearch" placeholder="Search student by name or ID..." />
+              <button class="btn btn-primary btn-sm" id="btnCoachAddMember">+ Add Member</button>
+            </div>
+          </div>
+
+          <div class="card-glass">
+            <div id="coachRosterEmpty" class="empty-state-card" style="display: none;">
+              <div class="empty-state-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              </div>
+              <div class="empty-state-title">No Enrolled Members Yet</div>
+              <div class="empty-state-desc">New students will automatically appear in your roster once they register their campus accounts.</div>
+            </div>
+            <table class="data-table" id="coachRosterTable">
+              <thead>
+                <tr>
+                  <th>Student Name</th>
+                  <th>ID</th>
+                  <th>Department / Info</th>
+                  <th>Streak</th>
+                  <th>AI Form Avg</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="coachRosterTableBody">
+                <!-- Dynamically populated in app.js -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 10. Coach Manual Attendance -->
+        <section id="view-coach-attendance" class="content-view">
+          <div class="view-header">
+            <div>
+              <h2>Manual Attendance Verification</h2>
+              <p>Official instructor attendance verification log. Attendance is manually confirmed by the coach.</p>
+            </div>
+            <button class="btn btn-primary btn-sm" id="btnVerifyAllAttendance">Verify All Present</button>
+          </div>
+
+          <div class="card-glass">
+            <div id="coachAttendanceEmpty" class="empty-state-card" style="display: none;">
+              <div class="empty-state-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+              </div>
+              <div class="empty-state-title">No Attendance Records Yet</div>
+              <div class="empty-state-desc">Registered students will appear here for manual daily attendance confirmation.</div>
+            </div>
+            <table class="data-table" id="coachAttendanceTable">
+              <thead>
+                <tr>
+                  <th>Student</th>
+                  <th>Time In</th>
+                  <th>Workout Status</th>
+                  <th>Attendance State</th>
+                  <th>Decision</th>
+                </tr>
+              </thead>
+              <tbody id="coachAttendanceTableBody">
+                <!-- Dynamically populated in app.js -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 11. Coach Assign Workout -->
+        <section id="view-coach-assign" class="content-view">
+          <div class="view-header">
+            <div>
+              <h2>Assign Workout Routine</h2>
+              <p>Build and broadcast custom adaptive training plans directly to student accounts.</p>
+            </div>
+          </div>
+
+          <div class="card-glass" style="max-width: 640px;">
+            <form id="formAssignWorkout" class="auth-form">
+              <div class="form-group">
+                <label>Target Audience / Trainee</label>
+                <select id="assignTarget" style="width: 100%; padding: 0.8rem 1rem; border-radius: 8px; background: #0c1119; color: #ffffff; border: 1px solid var(--border-medium);">
+                  <option value="all">All Enrolled Students</option>
+                  <!-- Dynamically populated with individual student accounts -->
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Primary Exercise</label>
+                <select id="assignExercise" style="width: 100%; padding: 0.8rem 1rem; border-radius: 8px; background: #0c1119; color: #ffffff; border: 1px solid var(--border-medium);">
+                  <option value="Squats">Adaptive Squats (Depth Focus)</option>
+                  <option value="Push-ups">Push-ups (Chest &amp; Core)</option>
+                  <option value="Lunges">Walking Lunges (Cadence Focus)</option>
+                  <option value="Jumping Jacks">Jumping Jacks (Cardio Conditioning)</option>
+                  <option value="Plank">Isometric Plank Hold</option>
+                </select>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                  <label>Sets</label>
+                  <input type="number" id="assignSets" value="4" min="1" max="10" />
+                </div>
+                <div class="form-group">
+                  <label>Reps per Set</label>
+                  <input type="number" id="assignReps" value="12" min="1" max="50" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Coach Directives &amp; Notes</label>
+                <textarea id="assignNotes" rows="3" style="width: 100%; padding: 0.8rem 1rem; border-radius: 8px; background: #0c1119; color: #ffffff; border: 1px solid var(--border-medium);" placeholder="e.g. Focus on pausing 2 seconds at full bottom depth. Keep heels pinned."></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary" id="btnSubmitAssignWorkout">Broadcast Workout to Students</button>
+            </form>
+          </div>
+        </section>
+
+        <!-- 12. Coach Member Performance -->
+        <section id="view-coach-performance" class="content-view">
+          <div class="view-header">
+            <div>
+              <h2>Member Performance Telemetry</h2>
+              <p>Camera vision logs, rep counts, and joint angle telemetry across students.</p>
+            </div>
+          </div>
+
+          <div class="card-glass">
+            <div id="coachPerformanceEmpty" class="empty-state-card" style="display: none;">
+              <div class="empty-state-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              </div>
+              <div class="empty-state-title">No Performance Logs Yet</div>
+              <div class="empty-state-desc">Verified movement telemetry and rep counts will appear here once students complete workouts.</div>
+            </div>
+            <table class="data-table" id="coachPerformanceTable">
+              <thead>
+                <tr>
+                  <th>Member</th>
+                  <th>Last Exercise</th>
+                  <th>Target vs Done</th>
+                  <th>Form Telemetry</th>
+                  <th>Verified State</th>
+                </tr>
+              </thead>
+              <tbody id="coachPerformanceTableBody">
+                <!-- Dynamically populated in app.js -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 13. Coach AI Insights -->
+        <section id="view-coach-insights" class="content-view">
+          <div class="view-header">
+            <div>
+              <h2>AI Telemetry Insights &amp; Recommendations</h2>
+              <p>Algorithmic suggestions for load adaptation and injury risk mitigation based on actual student data.</p>
+            </div>
+          </div>
+
+          <div class="insights-list" id="coachInsightsList">
+            <!-- Dynamically populated in app.js -->
+          </div>
+        </section>
+
+        <!-- 14. Coach Membership & Fees -->
+        <section id="view-coach-fees" class="content-view">
+          <div class="view-header">
+            <div>
+              <h2>Membership &amp; Institutional Athletic Fees</h2>
+              <p>Student semester gym passes and renewal tracking.</p>
+            </div>
+          </div>
+
+          <div class="card-glass">
+            <div id="coachFeesEmpty" class="empty-state-card" style="display: none;">
+              <div class="empty-state-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+              </div>
+              <div class="empty-state-title">No Student Pass Records Yet</div>
+              <div class="empty-state-desc">Enrolled student gym memberships will appear here for status audits.</div>
+            </div>
+            <table class="data-table" id="coachFeesTable">
+              <thead>
+                <tr>
+                  <th>Student Name</th>
+                  <th>Membership Tier</th>
+                  <th>Pass Expiry</th>
+                  <th>Athletic Fee Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="coachFeesTableBody">
+                <!-- Dynamically populated in app.js -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 15. Coach Profile -->
+        <section id="view-coach-profile" class="content-view">
+          <div class="view-header">
+            <div>
+              <h2>Coach Profile &amp; Credentials</h2>
+              <p>Campus Athletic Department instructor details.</p>
+            </div>
+          </div>
+
+          <div class="card-glass" style="max-width: 600px;">
+            <form id="formCoachProfile" class="auth-form">
+              <div class="form-group">
+                <label>Coach Full Name</label>
+                <input type="text" id="profCoachName" value="Coach Martinez" required />
+              </div>
+              <div class="form-group">
+                <label>Department / Faculty</label>
+                <input type="text" id="profCoachDept" value="Campus Athletics &amp; Recreation" required />
+              </div>
+              <div class="form-group">
+                <label>Certifications &amp; Accreditations</label>
+                <input type="text" id="profCoachCerts" value="CSCS, NASM-CPT, Campus Head Coach" />
+              </div>
+              <button type="submit" class="btn btn-primary" id="btnSaveCoachProfile">Save Coach Profile</button>
+            </form>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <!-- ==================== MOBILE BOTTOM NAVIGATION ==================== -->
+    <nav class="mobile-bottom-nav" id="mobileBottomNav" aria-label="Mobile Navigation">
+      <!-- Student Bottom Tabs -->
+      <div class="mobile-nav-tabs" id="mobileNavStudent">
+        <button class="mobile-nav-item active" data-view="view-student-dashboard" id="mobTabStudentHome">
+          <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+          <span>Home</span>
+        </button>
+        <button class="mobile-nav-item" data-view="view-student-workouts" id="mobTabStudentWorkouts">
+          <svg viewBox="0 0 24 24"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29z"/></svg>
+          <span>Workouts</span>
+        </button>
+        <button class="mobile-nav-item mobile-nav-center" data-view="view-student-aitrainer" id="mobTabStudentTrainer" title="AI Trainer">
+          <div class="center-nav-circle">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+          </div>
+          <span>AI Trainer</span>
+        </button>
+        <button class="mobile-nav-item" data-view="view-student-progress" id="mobTabStudentProgress">
+          <svg viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
+          <span>Progress</span>
+        </button>
+        <button class="mobile-nav-item" id="btnMobileStudentMore">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
+          <span>More</span>
+        </button>
+      </div>
+
+      <!-- Coach Bottom Tabs -->
+      <div class="mobile-nav-tabs" id="mobileNavCoach" style="display: none;">
+        <button class="mobile-nav-item active" data-view="view-coach-dashboard" id="mobTabCoachHome">
+          <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+          <span>Home</span>
+        </button>
+        <button class="mobile-nav-item" data-view="view-coach-members" id="mobTabCoachMembers">
+          <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+          <span>Members</span>
+        </button>
+        <button class="mobile-nav-item mobile-nav-center" data-view="view-coach-attendance" id="mobTabCoachAttendance" title="Manual Attendance">
+          <div class="center-nav-circle coach">
+            <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM9 10H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z"/></svg>
+          </div>
+          <span>Attendance</span>
+        </button>
+        <button class="mobile-nav-item" data-view="view-coach-assign" id="mobTabCoachAssign">
+          <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+          <span>Assign</span>
+        </button>
+        <button class="mobile-nav-item" id="btnMobileCoachMore">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
+          <span>More</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile "More" Bottom Sheet Modal -->
+    <div id="sheetMobileMore" class="mobile-sheet-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="mobile-sheet-box">
+        <div class="mobile-sheet-handle"></div>
+        <div class="mobile-sheet-header">
+          <h4 id="moreSheetTitle">More Options</h4>
+          <button class="mobile-sheet-close" id="btnCloseMoreSheet" aria-label="Close menu">&times;</button>
+        </div>
+        
+        <!-- Student More Menu Items -->
+        <div class="mobile-sheet-content" id="moreSheetStudent">
+          <button class="mobile-sheet-btn" data-view="view-student-challenges">
+            <svg viewBox="0 0 24 24"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V19H7v2h10v-2h-4v-3.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2z"/></svg>
+            <div class="mobile-sheet-btn-text">
+              <strong>Campus Challenges</strong>
+              <span>Inter-hostel rallies &amp; rankings</span>
+            </div>
+          </button>
+          <button class="mobile-sheet-btn" data-view="view-student-gym">
+            <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            <div class="mobile-sheet-btn-text">
+              <strong>Campus Gym</strong>
+              <span>Facility occupancy &amp; check-in status</span>
+            </div>
+          </button>
+          <button class="mobile-sheet-btn" data-view="view-student-profile">
+            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            <div class="mobile-sheet-btn-text">
+              <strong>Profile &amp; Calibrations</strong>
+              <span>Fitness goals, age settings &amp; equipment</span>
+            </div>
+          </button>
+          <div class="mobile-sheet-divider"></div>
+          <button class="mobile-sheet-btn text-danger" id="btnMobileLogout">
+            <svg viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+            <div class="mobile-sheet-btn-text">
+              <strong>Sign Out</strong>
+              <span>Log out of student account</span>
+            </div>
+          </button>
+        </div>
+
+        <!-- Coach More Menu Items -->
+        <div class="mobile-sheet-content" id="moreSheetCoach" style="display: none;">
+          <button class="mobile-sheet-btn" data-view="view-coach-performance">
+            <svg viewBox="0 0 24 24"><path d="M5 9.2h3V19H5zM10.6 5h2.8v14h-2.8zm5.6 8H19v6h-2.8z"/></svg>
+            <div class="mobile-sheet-btn-text">
+              <strong>Performance Telemetry</strong>
+              <span>Student angle telemetry &amp; verification</span>
+            </div>
+          </button>
+          <button class="mobile-sheet-btn" data-view="view-coach-insights">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            <div class="mobile-sheet-btn-text">
+              <strong>AI Insights &amp; Alerts</strong>
+              <span>Fatigue detection &amp; load adaptation</span>
+            </div>
+          </button>
+          <button class="mobile-sheet-btn" data-view="view-coach-fees">
+            <svg viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+            <div class="mobile-sheet-btn-text">
+              <strong>Membership &amp; Passes</strong>
+              <span>Fee statuses &amp; semester renewals</span>
+            </div>
+          </button>
+          <button class="mobile-sheet-btn" data-view="view-coach-profile">
+            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            <div class="mobile-sheet-btn-text">
+              <strong>Coach Profile &amp; Settings</strong>
+              <span>Instructor credentials &amp; department</span>
+            </div>
+          </button>
+          <div class="mobile-sheet-divider"></div>
+          <button class="mobile-sheet-btn text-danger" id="btnMobileCoachLogout">
+            <svg viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+            <div class="mobile-sheet-btn-text">
+              <strong>Sign Out</strong>
+              <span>Log out of coach portal</span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODALS ==================== -->
+
+  <!-- 1. Student Onboarding Modal -->
+  <div id="modalStudentOnboarding" class="app-modal-overlay" role="dialog" aria-modal="true">
+    <div class="app-modal-box">
+      <div class="modal-sheet-handle"></div>
+      <div class="app-modal-header">
+        <div>
+          <h3>Fitness Profile Calibration</h3>
+          <p>Tell FITMATE AI about your baseline so we can generate your age-aware adaptive workout.</p>
+        </div>
+      </div>
+
+      <form id="formOnboarding" class="auth-form">
+        <div class="form-group">
+          <label>Your Age (Years) * <span style="color: var(--accent-primary); font-size: 0.8rem;">(Required to calibrate intensity)</span></label>
+          <input type="number" id="onboardAge" min="14" max="99" required placeholder="Enter your age (e.g. 21)" />
+        </div>
+
+        <div class="form-group">
+          <label>Do you want to exercise now?</label>
+          <select id="onboardWillingness" style="width: 100%; padding: 0.8rem 1rem; border-radius: 8px; background: #0c1119; color: #ffffff; border: 1px solid var(--border-medium);">
+            <option value="yes" selected>Yes, I want to exercise</option>
+            <option value="not_now">Not now (Set up profile first)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Primary Fitness Goal</label>
+          <select id="onboardGoal" style="width: 100%; padding: 0.8rem 1rem; border-radius: 8px; background: #0c1119; color: #ffffff; border: 1px solid var(--border-medium);">
+            <option value="strength" selected>Athletic Strength &amp; Hypertrophy</option>
+            <option value="endurance">Cardiovascular Stamina &amp; Conditioning</option>
+            <option value="weightloss">Weight Loss &amp; High-Rep Burn</option>
+            <option value="mobility">Flexibility, Core Stability &amp; Posture</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Current Fitness / Activity Level</label>
+          <select id="onboardActivity" style="width: 100%; padding: 0.8rem 1rem; border-radius: 8px; background: #0c1119; color: #ffffff; border: 1px solid var(--border-medium);">
+            <option value="beginner">Beginner (New to structured training)</option>
+            <option value="intermediate" selected>Intermediate (Work out 2-3 times/week)</option>
+            <option value="advanced">Advanced (Experienced athlete)</option>
+          </select>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group">
+            <label>Available Daily Time</label>
+            <select id="onboardTime" style="width: 100%; padding: 0.8rem 1rem; border-radius: 8px; background: #0c1119; color: #ffffff; border: 1px solid var(--border-medium);">
+              <option value="15">15 Minutes</option>
+              <option value="30" selected>30 Minutes</option>
+              <option value="45">45 Minutes</option>
+              <option value="60">60 Minutes</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Available Equipment</label>
+            <select id="onboardEquipment" style="width: 100%; padding: 0.8rem 1rem; border-radius: 8px; background: #0c1119; color: #ffffff; border: 1px solid var(--border-medium);">
+              <option value="bodyweight" selected>Bodyweight Only</option>
+              <option value="dumbbells">Dumbbells &amp; Bands</option>
+              <option value="gym">Full Campus Gym</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-top: 1.5rem;">
+          <button type="submit" class="btn btn-primary btn-full" id="btnSubmitOnboarding">Generate Personalized Workout Plan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. Exercise Steps / Details Modal -->
+  <div id="modalExerciseSteps" class="app-modal-overlay" role="dialog" aria-modal="true">
+    <div class="app-modal-box">
+      <div class="modal-sheet-handle"></div>
+      <div class="app-modal-header">
+        <div>
+          <h3 id="modalExerciseTitle">Exercise Steps &amp; Form Guide</h3>
+          <p id="modalExerciseSubtitle">Biomechanical posture cues and execution cadence.</p>
+        </div>
+        <button class="modal-close-btn" id="btnCloseExerciseModal">&times;</button>
+      </div>
+      <div id="modalExerciseContent" style="color: var(--text-secondary); line-height: 1.6; font-size: 0.9rem;">
+        <!-- Dynamically rendered -->
+      </div>
+      <div style="margin-top: 1.5rem; display: flex; justify-content: flex-end;">
+        <button class="btn btn-primary btn-sm" id="btnLaunchFromExerciseModal">Launch in AI Trainer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Challenge Leaderboard Modal -->
+  <div id="modalChallengeLeaderboard" class="app-modal-overlay" role="dialog" aria-modal="true">
+    <div class="app-modal-box">
+      <div class="modal-sheet-handle"></div>
+      <div class="app-modal-header">
+        <div>
+          <h3 id="modalLeaderboardTitle">Challenge Leaderboard</h3>
+          <p id="modalLeaderboardSubtitle">Verified reps aggregated from completed workout sessions.</p>
+        </div>
+        <button class="modal-close-btn" id="btnCloseLeaderboardModal">&times;</button>
+      </div>
+      <div class="card-glass" style="padding: 0.5rem 1rem;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Participant / Team</th>
+              <th>Verified Reps</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="modalLeaderboardTableBody">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top: 1.5rem; display: flex; justify-content: flex-end;">
+        <button class="btn btn-secondary btn-sm" id="btnCloseLeaderboardBtn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Coach Add Member Modal -->
+  <div id="modalCoachAddMember" class="app-modal-overlay" role="dialog" aria-modal="true">
+    <div class="app-modal-box">
+      <div class="modal-sheet-handle"></div>
+      <div class="app-modal-header">
+        <div>
+          <h3>Add New Student Member</h3>
+          <p>Enroll a trainee into your campus athletic roster and initialize adaptive plans.</p>
+        </div>
+        <button class="modal-close-btn" id="btnCloseAddMemberModal">&times;</button>
+      </div>
+
+      <form id="formCoachAddMember" class="auth-form">
+        <div class="form-group">
+          <label>Full Name *</label>
+          <input type="text" id="addMemberName" required placeholder="e.g. Jordan Lee" autocomplete="off" />
+        </div>
+        <div class="form-group">
+          <label>Institutional Email *</label>
+          <input type="email" id="addMemberEmail" required placeholder="jordan.lee@campus.edu" autocomplete="off" />
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group">
+            <label>Age (Years) *</label>
+            <input type="number" id="addMemberAge" min="14" max="99" value="20" required placeholder="e.g. 20" />
+          </div>
+          <div class="form-group">
+            <label>Department / Major</label>
+            <input type="text" id="addMemberDept" placeholder="e.g. Mechanical Eng" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Primary Fitness Goal</label>
+          <select id="addMemberGoal" style="width: 100%; padding: 0.8rem 1rem; border-radius: 8px; background: #0c1119; color: #ffffff; border: 1px solid var(--border-medium);">
+            <option value="strength" selected>Athletic Strength &amp; Posture</option>
+            <option value="endurance">Cardiovascular Conditioning</option>
+            <option value="weightloss">Weight Loss &amp; High-Rep Burn</option>
+            <option value="mobility">Flexibility &amp; Core Posture</option>
+          </select>
+        </div>
+        <div style="margin-top: 1.5rem; display: flex; gap: 0.75rem;">
+          <button type="button" class="btn btn-secondary btn-full" id="btnCancelAddMember">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-full" id="btnSubmitAddMember">Enroll Member</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- In-App Notification Toast Container -->
+  <div id="appToastContainer" class="app-toast-container"></div>
+
+  <script src="app.js?v=2.1.0"></script>
+</body>
+</html>
